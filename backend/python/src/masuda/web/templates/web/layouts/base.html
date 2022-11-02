@@ -1,0 +1,54 @@
+{% load i18n static %}
+<!DOCTYPE html>{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE|default:'en-us' }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="{% static 'web/bootstrap-5.0.2/css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    
+        <link rel="stylesheet" href="{% static 'web/css/style.css' %}" />
+        <title>{% block title %}Masuda Deleter{% endblock %}</title>
+    </head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">MasudaDeleter</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'web:index' %}">Posts</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'web:progress.index' %}">Progresses</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'web:graph.index' %}">Graphs</a>
+              </li>
+            </ul>
+            <div class="d-flex">
+                id:{{ current_hatena_id }}
+            </div>
+          </div>
+        </div>
+    </nav>
+    <div id="app">
+        <main>
+      {% block content %}
+      {{ content }}
+      {% endblock %}
+        </main>
+    </div>
+    <!-- <footer class="mw-100 footer text-center fixed-bottom bg-light" id="footer_content">
+        Copyright(C). xxxx All Rights Reserved.
+    </footer> -->
+
+    <script src="{% static 'web/bootstrap-5.0.2/js/bootstrap.min.js' %}"></script>
+    {% block js %}
+    {{ js }}
+    {% endblock %}
+</body>
+</html>

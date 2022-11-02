@@ -1,0 +1,22 @@
+{% extends "web/layouts/base.html" %}
+{% block content %}
+<div class="container">
+    <h4 class="">{{ post.title }}</h4>
+    <div class="row">
+        <div class="col">{{ post.posted_at }}</div>
+    </div>
+    <div class="row mt-3 mb-3">
+        <div class="col">{{ post.body|linebreaksbr }}</div>
+    </div>
+    <div class="row">
+        <div class="col">ブックマーク: {{ post.bookmark_count }}</div>
+    </div>
+    <div class="row">
+        <div class="col">トラックバック: {{ post.response_count }}</div>
+    </div>
+    <div class="row">
+        <div class="col">増田ID: <a href="{{ anond_url }}/{{ post.masuda_id }}">{{ post.masuda_id }}</a></div>
+    </div>
+    <a href="{% url 'web:index' %}" class="btn btn-secondary">back</a>
+</div>
+{% endblock %}

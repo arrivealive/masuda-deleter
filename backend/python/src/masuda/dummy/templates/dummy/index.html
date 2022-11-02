@@ -1,0 +1,108 @@
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <link href="/images/favicon.ico" rel="shortcut icon">
+  <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" name="viewport">
+  <meta content="origin" name="referrer">
+  <meta content="{% if my %}{{ user.username }}の日記{% else %}{{ site_name }}{% endif %}" property="og:title">
+  <meta content="blog" property="og:type">
+  <meta content="{{ site_name }}" property="og:site_name">
+  <link href="https://cdn.www.st-hatena.com/css/global.css" rel="stylesheet">
+  <link href="/static/dummy/css/bundle.css?20210402" rel="stylesheet">
+  <title>{% if my %}{{ user.username }}の日記{% else %}{{ site_name }}{% endif %}{% if page_obj.number > 1 %} - {{ page_obj.number }}ページ{% endif %}</title>
+  <script src="/js/main.js"></script>
+</head>
+<body id="page-87">
+  {% include 'dummy/layouts/header.html' %}
+  <div class="hatena-body" id="hatena-anond">
+    {% if my %}
+    <ul id="breadcrumbs">
+      <li><a href="/dummy">{{ site_name }}</a></li>
+      <li>{{ user.username }}の日記</li>
+    </ul>
+    <h1>{{ user.username }}の日記</h1>
+    {% else %}
+    <h1>{{ site_name }} </h1>
+    <div id="intro"><p>蜷榊燕繧帝國縺励※讌ｽ縺励￥譌･險倥?</p></div>
+    {% endif %}
+    {{ now }}
+    
+    <div id="body">
+      <div class="pager">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">&lt;前の25件</a>{% endif %}{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">次の25件&gt;</a>{% endif %}</div>
+      {% for datekey, date_items in day_list.items %}
+      <div class="day">
+        <h2><a href="{{ datekey }}"><span class="date">{{ date_items.date }}</span></a></h2>
+        <div class="body">
+          {% for post in date_items.posts %}
+          {% include 'dummy/layouts/post.html' %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+      
+      <div class="pager">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">&lt;前の25件</a>{% endif %}{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">次の25件&gt;</a>{% endif %}</div>
+    </div>
+  </div>
+  {% include 'dummy/layouts/narrow.html' %}
+  {% include 'dummy/layouts/footer.html' %}
+  <script type="text/javascript" id="">
+    var nodeList=document.querySelectorAll(".section h3"),h3s=Array.prototype.slice.call(nodeList,0);
+    h3s.forEach(function(d){var f=d.querySelector('a:nth-of-type(1)[href^\x3d"/20"]').href.match(/https:\/\/anond.hatelabo.jp\/([0-9]{14})/)[1],e=d.querySelector('a:nth-of-type(2)[href^\x3d"/20"]');if(e&&0===e.href.indexOf("https://anond.hatelabo.jp/")){var a=document.createElement("button");a.textContent="\u8a00\u53ca\u5148\u30a8\u30f3\u30c8\u30ea\u3092\u958b\u304f";a.className="optimize-get-reference-button";a.addEventListener("click",function h(){a.disabled=!0;var c=new XMLHttpRequest;c.open("GET",
+    e.href+"?mode\x3djson");c.onload=function(){if(4===c.readyState)if(200===c.status){a.disabled=!1;a.textContent="\u8a00\u53ca\u5148\u30a8\u30f3\u30c8\u30ea\u3092\u9589\u3058\u308b";a.className="optimize-get-reference-button open";var b=JSON.parse(c.responseText);b='\x3cdiv class\x3d"optimize-reference-entry optimize-reference-entry-id-'+f+'"\x3e\x3ch3\x3e\x3ca href\x3d"https://anond.hatelabo.jp/'+b.id+'"\x3e\x3cspan class\x3d"reference-link"\x3e\u25a0\x3c/span\x3e\x3c/a\x3e'+b.title+'\x3ca class\x3d"users" href\x3d"http://b.hatena.ne.jp/entry/s/anond.hatelabo.jp/'+
+    b.id+'"\x3e\x3cimg class\x3d"users-image" src\x3d"https://b.hatena.ne.jp/entry/image/https://anond.hatelabo.jp/'+b.id+'"\x3e\x3c/a\x3e\x3c/h3\x3e'+b.body+"\x3c/div\x3e";d.insertAdjacentHTML("afterend",b);a.removeEventListener("click",h);a.addEventListener("click",function(){var g=document.querySelector(".optimize-reference-entry-id-"+f);0<=a.className.indexOf("open")?(g.style.display="none",a.className="optimize-get-reference-button",a.textContent="\u8a00\u53ca\u5148\u30a8\u30f3\u30c8\u30ea\u3092\u958b\u304f"):
+    (g.style.display="block",a.className="optimize-get-reference-button open",a.textContent="\u8a00\u53ca\u5148\u30a8\u30f3\u30c8\u30ea\u3092\u9589\u3058\u308b")})}else b='\x3cdiv class\x3d"optimize-reference-entry-error error"\x3e\u8a00\u53ca\u5148\u30a8\u30f3\u30c8\u30ea\u306e\u53d6\u5f97\u306b\u5931\u6557\u3057\u307e\u3057\u305f\x3c/div\x3e',d.insertAdjacentHTML("afterend",b)};c.send()});d.appendChild(a)}});
+  </script>
+  <style>
+    .optimize-get-reference-button {
+      background-color: #efefef;
+      border: #dedede 1px solid;
+      margin-left: 12px;
+      cursor: pointer;
+  }
+   
+    @media screen and (max-width: 767px) {
+        .optimize-get-reference-button {
+            margin-bottom: 10px;
+        }
+  }
+  
+  .optimize-get-reference-button:before {
+      content: "▼";
+      margin-right: 3px;
+  }
+  
+  .optimize-reference-entry {
+      margin: 12px 6px;
+      position: relative;
+      padding: 5px;
+      background: #E0E9FA;
+  }
+  
+  .optimize-reference-entry:before{
+  	content: "";
+  	position: absolute;
+  	top: -16px;
+  	left: 30px;
+  	border: 8px solid transparent;
+  	border-bottom: 8px solid #E0E9FA;
+  }
+  
+  .optimize-reference-entry-error {
+    margin-bottom: 12px;
+  }
+  
+  .reference-link {
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+  
+  .optimize-reference-entry .users {
+    margin-left: 6px;
+  }
+  
+  #hatena-anond div.section .optimize-reference-entry h3 {
+    font-size : 110%;
+  }
+  </style>
+</body>
+</html>

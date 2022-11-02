@@ -1,0 +1,39 @@
+  <div class="banner" id="globalheader">
+    <table cellpadding="0" cellspacing="0" id="headtable">
+      <tbody>
+        <tr>
+          <td id="logo"><a href="http://hatelabo.jp/"><img alt="はてラボ" id="hatelabo-logo" src="/images/logo_hatelabo@2x.png"></a><a href="/"><img alt="{{ site_name }}" id="anond-logo" src="/images/logo_anond@2x.png" title="{{ site_name }}"></a>
+            <form action="/masuda/search" class="search-form" id="global-search" method="GET"><input class="search-text" name="word" size="6" type="text" value=""> <input class="search-submit" name="search-diary" type="submit" value="日記"><input class="search-submit" name="search" type="submit" value="検索"></form>
+          </td>
+          <td id="globalmenu" valign="middle">
+            <ul>
+              <li><a href="/archive">アーカイブ</a></li>
+              <li><a href="/c">カテゴリー</a></li>
+              <li><a href="/keyword">キーワード</a></li>
+              <li><a href="/help">ヘルプ</a></li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="wide" id="bannersub">
+      <table>
+        <tbody>
+          {% if user %}
+          <tr>
+            <td class="username"> ようこそ <a href="/dummy/{{ user.username }}/">{{ user.username }}</a> さん </td>
+            <td class="gmenu"><a href="/dummy/{{ user.username }}/">{{ user.username }}の日記</a></td>
+            <td class="gmenu"><a href="/dummy/{{ user.username }}/edit">日記を書く</a></td>
+            <td class="gmenu"><a href="/dummy/logout">ログアウト</a></td>
+          </tr>
+          {% else %}
+          <tr>
+            <td class="username"> ようこそ ゲスト さん </td>
+            <td class="gmenu"><a href="/dummy/login">ログイン</a></td>
+            <td class="gmenu"><a href="https://www.hatena.ne.jp/register?s=l">ユーザー登録</a></td>
+          </tr>
+        {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>

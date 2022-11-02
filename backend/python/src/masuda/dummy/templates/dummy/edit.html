@@ -1,0 +1,107 @@
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <link href="/images/favicon.ico" rel="shortcut icon">
+  <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" name="viewport">
+  <meta content="origin" name="referrer">
+  <meta content="日記の編集 - {{ user.username }}の日記" property="og:title">
+  <meta content="blog" property="og:type">
+  <meta content="{{ site_name }}" property="og:site_name">
+  <meta content="https://anond.hatelabo.jp/images/og-image-1500.gif" property="og:image">
+  <link href="https://cdn.www.st-hatena.com/css/global.css" rel="stylesheet">
+  <link href="/static/dummy/css/bundle.css?20210402" rel="stylesheet">
+  <title>日記の編集 - {{ user.username }}の日記</title>
+  <script src="/js/main.js"></script>
+</head>
+<body id="page-edit">
+  {% include 'dummy/layouts/header.html' %}
+  <div class="hatena-body" id="hatena-anond">
+    <ul id="breadcrumbs">
+      <li><a href="/dummy/">{{ site_name }}</a></li>
+      <li><a href="/dummy/{{ user.username }}/">{{ user.username }}の日記</a></li>
+      <li>日記の編集</li>
+    </ul>
+    <h1>日記の編集</h1>
+    <div id="body"><noscript><div class="error"><p> JavaScriptを有効にしてください。 </div></noscript>
+      <form action="/dummy/{{ user.username }}/edit" method="post" name="edit"><input name="rkm" type="hidden" value="w9wr6jYcOu5ED/7SCl/GyQ"> <input name="mode" type="hidden" value="confirm"> <input name="id" type="hidden" value="{% if post %}{{ post.masuda_id }}{% endif %}"> <input name="recaptcha_token" type="hidden" value="">
+        {% csrf_token %}
+        <div class="day">
+          <h2><a href="/dummy/{{ user.username }}/{{ post.posted_at|date:'Ymd' }}"><span class="date">{{ post.posted_at|date:'Y-m-d' }}</span></a></h2>
+          <div class="body">
+            <p id="draft-restored" style="display: none">以前に書いていた内容を復帰しました。<a href="#" id="draft-restored-clear">クリアする</a></p>
+            <div class="section"><input id="text-title" name="title" placeholder="日記のタイトル" size="80" type="text" value="{% if post %}{{ post.title }}{% endif %}"><textarea cols="60" id="text-body" name="body" placeholder="内容" rows="15">{% if post %}{{ post.body }}{% endif %}</textarea></div>
+          </div>
+        </div>
+        <p class="post-submit"><input name="preview" type="submit" value="確認する"> <input class="post-button" id="submit-button" type="submit" value="この内容を登録する"> <span class="explain">{{ company_name }}記法が一部使えます<a class="out" href="http://hatenadiary.g.hatena.ne.jp/keyword/%e3%81%af%e3%81%a6%e3%81%aa%e8%a8%98%e6%b3%95%e4%b8%80%e8%a6%a7" target="_blank">{{ company_name }}記法一覧</a></span></p>
+        <hr>
+        <p class="post-submit"><input class="delete-button" name="delete" onclick="return confirm('この日記を削除します。よろしいですか?')" type="submit" value="削除する"></p>
+      </form>
+    </div>
+  </div>
+  {% include 'dummy/layouts/narrow.html' %}
+  {% include 'dummy/layouts/footer.html' %}
+  <script type="text/javascript" id="">
+    var nodeList=document.querySelectorAll(".section h3"),h3s=Array.prototype.slice.call(nodeList,0);
+    h3s.forEach(function(d){var f=d.querySelector('a:nth-of-type(1)[href^\x3d"/20"]').href.match(/https:\/\/anond.hatelabo.jp\/([0-9]{14})/)[1],e=d.querySelector('a:nth-of-type(2)[href^\x3d"/20"]');if(e&&0===e.href.indexOf("https://anond.hatelabo.jp/")){var a=document.createElement("button");a.textContent="\u8a00\u53ca\u5148\u30a8\u30f3\u30c8\u30ea\u3092\u958b\u304f";a.className="optimize-get-reference-button";a.addEventListener("click",function h(){a.disabled=!0;var c=new XMLHttpRequest;c.open("GET",
+    e.href+"?mode\x3djson");c.onload=function(){if(4===c.readyState)if(200===c.status){a.disabled=!1;a.textContent="\u8a00\u53ca\u5148\u30a8\u30f3\u30c8\u30ea\u3092\u9589\u3058\u308b";a.className="optimize-get-reference-button open";var b=JSON.parse(c.responseText);b='\x3cdiv class\x3d"optimize-reference-entry optimize-reference-entry-id-'+f+'"\x3e\x3ch3\x3e\x3ca href\x3d"https://anond.hatelabo.jp/'+b.id+'"\x3e\x3cspan class\x3d"reference-link"\x3e\u25a0\x3c/span\x3e\x3c/a\x3e'+b.title+'\x3ca class\x3d"users" href\x3d"http://b.hatena.ne.jp/entry/s/anond.hatelabo.jp/'+
+    b.id+'"\x3e\x3cimg class\x3d"users-image" src\x3d"https://b.hatena.ne.jp/entry/image/https://anond.hatelabo.jp/'+b.id+'"\x3e\x3c/a\x3e\x3c/h3\x3e'+b.body+"\x3c/div\x3e";d.insertAdjacentHTML("afterend",b);a.removeEventListener("click",h);a.addEventListener("click",function(){var g=document.querySelector(".optimize-reference-entry-id-"+f);0<=a.className.indexOf("open")?(g.style.display="none",a.className="optimize-get-reference-button",a.textContent="\u8a00\u53ca\u5148\u30a8\u30f3\u30c8\u30ea\u3092\u958b\u304f"):
+    (g.style.display="block",a.className="optimize-get-reference-button open",a.textContent="\u8a00\u53ca\u5148\u30a8\u30f3\u30c8\u30ea\u3092\u9589\u3058\u308b")})}else b='\x3cdiv class\x3d"optimize-reference-entry-error error"\x3e\u8a00\u53ca\u5148\u30a8\u30f3\u30c8\u30ea\u306e\u53d6\u5f97\u306b\u5931\u6557\u3057\u307e\u3057\u305f\x3c/div\x3e',d.insertAdjacentHTML("afterend",b)};c.send()});d.appendChild(a)}});
+  </script>
+  <style>
+    .optimize-get-reference-button {
+      background-color: #efefef;
+      border: #dedede 1px solid;
+      margin-left: 12px;
+      cursor: pointer;
+  }
+   
+    @media screen and (max-width: 767px) {
+        .optimize-get-reference-button {
+            margin-bottom: 10px;
+        }
+  }
+  
+  .optimize-get-reference-button:before {
+      content: "▼";
+      margin-right: 3px;
+  }
+  
+  .optimize-reference-entry {
+      margin: 12px 6px;
+      position: relative;
+      padding: 5px;
+      background: #E0E9FA;
+  }
+  
+  .optimize-reference-entry:before{
+  	content: "";
+  	position: absolute;
+  	top: -16px;
+  	left: 30px;
+  	border: 8px solid transparent;
+  	border-bottom: 8px solid #E0E9FA;
+  }
+  
+  .optimize-reference-entry-error {
+    margin-bottom: 12px;
+  }
+  
+  .reference-link {
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+  
+  .optimize-reference-entry .users {
+    margin-left: 6px;
+  }
+  
+  #hatena-anond div.section .optimize-reference-entry h3 {
+    font-size : 110%;
+  }
+  </style>
+  <div>
+    <div class="grecaptcha-badge" data-style="bottomright" style="width: 256px; height: 60px; display: block; transition: right 0.3s ease 0s; position: fixed; bottom: 14px; right: -186px; box-shadow: gray 0px 0px 5px; border-radius: 2px; overflow: hidden;">
+      <div class="grecaptcha-logo"><iframe title="reCAPTCHA" src="https://www.google.com/recaptcha/enterprise/anchor?ar=1&amp;k=6LfsQY0bAAAAAK1_ZYVY6CqnkaSwAMok2rMOoK9L&amp;co=aHR0cHM6Ly9hbm9uZC5oYXRlbGFiby5qcDo0NDM.&amp;hl=ja&amp;v=ovmhLiigaw4D9ujHYlHcKKhP&amp;size=invisible&amp;cb=6rm6e0vefslr" width="256" height="60" role="presentation" name="a-apegmqd4hv3a" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe></div>
+      <div class="grecaptcha-error"></div><textarea id="g-recaptcha-response-100000" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></div>
+</body>
+</html>
