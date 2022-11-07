@@ -18,6 +18,7 @@ import logging
 
 from masuda import const
 from masudaapi.models import Post, HatenaUser, Progress, StopCommand, Delete_Post, Delete_Later_Check
+from masudaapi.lib import user_getter
 from web.forms.post_forms import PostForm, SearchForm, FetchForm, SelectiveDeleteForm
 
 class IndexView(generic.ListView):
@@ -30,7 +31,7 @@ class IndexView(generic.ListView):
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset(**kwargs)
 
-        user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+        user = user_getter.get()
         queryset = queryset.filter(user=user)
 
         input = SearchForm(self.request.GET)
@@ -129,7 +130,7 @@ class DetailView(generic.DetailView):
         return context
 
 def delete(request, pk):
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     post = get_object_or_404(Post, pk=pk, user=user)
     params = {}
     if post.may_be_deleted:
@@ -156,7 +157,7 @@ def delete(request, pk):
     return HttpResponse(json_str)
 
 def space_masuda(request, pk):
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     post = get_object_or_404(Post, pk=pk, user=user)
     params = {}
     # result = management.call_command('empty-masuda', post.id)
@@ -176,7 +177,7 @@ def space_masuda(request, pk):
     return HttpResponse(json_str)
 
 def reload(request, pk):
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     post = get_object_or_404(Post, pk=pk, user=user)
     params = {}
     abbr_length = const.ABBREVIATION_LENGTH
@@ -203,7 +204,7 @@ def reload(request, pk):
 
 def selective_delete(request):
     params = {}
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     # result = management.call_command('selective-delete-masuda')
 
     checks = Delete_Later_Check.objects.filter(post__user=user)
@@ -242,7 +243,7 @@ def fetch(request):
     page_to = form.cleaned_data.get('page_to')
     # result = management.call_command('fetch-masuda', page_from, page_to)
 
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     progress = Progress.objects.create(
         user = user,
         total = 0,
@@ -269,7 +270,7 @@ def fetch(request):
     return HttpResponse(json_str)
 
 def check_to_delete(request, pk, checked):
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     post = get_object_or_404(Post, pk=pk, user=user)
     params = {}
     if checked == 1:
@@ -284,7 +285,7 @@ def check_to_delete(request, pk, checked):
     return HttpResponse(json_str)
 
 def uncheck_all(request):
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     Delete_Later_Check.objects.filter(user=user).delete()
     params = {}
     params['result'] = True
@@ -292,7 +293,7 @@ def uncheck_all(request):
     return HttpResponse(json_str)
 
 def to_be_deleted_later(request):
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA["ID"]).first()
+    user = user_getter.get()
     delete_later_checks = Delete_Later_Check.objects.filter(post__user=user).select_related('post')
     data = [
         {

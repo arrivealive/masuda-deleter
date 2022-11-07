@@ -21,6 +21,7 @@ from django.utils.timezone import make_aware
 from masuda import const
 from masudaapi.models import Post, HatenaUser, Progress, StopCommand, Delete_Post, Delete_Later_Check
 from masudaapi.lib.MasudaRequest import MasudaRequest
+from masudaapi.lib import user_getter
 
 import logging
 
@@ -49,10 +50,6 @@ class Masuda:
         if not result:
             result = self.request.initial_login(const.HATENA["ID"], const.HATENA["PASSWORD"])
         
-        if result:
-            HatenaUser.objects.get_or_create(hatena_id=const.HATENA["ID"], defaults={
-                'hatena_id': const.HATENA["ID"]
-            })
         return result
     
     def use_progress(action:str):
@@ -84,7 +81,7 @@ class Masuda:
                     overview = f'Fetch page {page_from} - {page_to}'
 
                 #create progress
-                user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+                user = user_getter.get()
                 if not self.progress:
                     self.progress = Progress(
                         user = user,
@@ -196,18 +193,18 @@ class Masuda:
 
         return True
     
-    def get_page(self, page):
+    def get_page(self, page:int):
         posts = self.request.get_page(page)
+        if len(posts) > 0:
+            bookmark_counts = self.request.get_bookmarks(posts.keys())
 
-        bookmark_counts = self.request.get_bookmarks(posts.keys())
+            for masuda_id, post in posts.items():
+                bookmark_count = ''
+                if masuda_id in bookmark_counts:
+                    bookmark_count = bookmark_counts[masuda_id]
+                posts[masuda_id]['bookmark_count'] = bookmark_count
 
-        for masuda_id, post in posts.items():
-            bookmark_count = ''
-            if masuda_id in bookmark_counts:
-                bookmark_count = bookmark_counts[masuda_id]
-            posts[masuda_id]['bookmark_count'] = bookmark_count
-
-        self.save_posts(posts)
+            self.save_posts(posts)
 
     
     def save_posts(self, posts:dict):
@@ -224,7 +221,7 @@ class Masuda:
                 self.progress.save()
     
     def save_post(self, post:dict):
-        user = HatenaUser.objects.filter(hatena_id = const.HATENA['ID'])[0]
+        user = user_getter.get()
 
         # save post
         Post.objects.update_or_create(
@@ -421,7 +418,7 @@ class Masuda:
         return True
 
     def create_delete_posts_from_checks(self):
-        user = HatenaUser.objects.filter(hatena_id=const.HATENA["ID"]).first()
+        user = user_getter.get()
         checks = Delete_Later_Check.objects.filter(post__user=user).select_related('post')
         if checks.count() == 0:
             return False

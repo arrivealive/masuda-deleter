@@ -19,6 +19,7 @@ from web.forms.progress_forms import FilterDeleteForm
 
 from masuda import const
 from masudaapi.models import Post, HatenaUser, Progress, StopCommand, Delete_Post
+from masudaapi.lib import user_getter
 
 class IndexView(generic.ListView):
     model = Progress
@@ -29,7 +30,7 @@ class IndexView(generic.ListView):
     
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset(**kwargs)
-        user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+        user = user_getter.get()
         queryset = queryset.filter(user=user)
         queryset = queryset.prefetch_related('delete_posts')
         queryset = queryset.prefetch_related('stop_commands')
@@ -42,7 +43,7 @@ class IndexView(generic.ListView):
 
 @require_http_methods(['POST'])
 def stop(request, pk):
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     progress = get_object_or_404(Progress, pk=pk, user=user)
     stop_command = StopCommand()
     stop_command.progress = progress
@@ -53,7 +54,7 @@ def stop(request, pk):
 
 @require_http_methods(['POST'])
 def force_stop(request, pk):
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     progress = get_object_or_404(Progress, pk=pk, user=user)
     try:
         if not progress.pid:
@@ -113,7 +114,7 @@ def force_stop(request, pk):
 
 def get(request, pk):
     params = {}
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     progress = Progress.objects.filter(id=pk, user=user).prefetch_related('delete_posts').first()
     if progress:
         params['total'] = progress.total
@@ -135,7 +136,7 @@ def get(request, pk):
     return HttpResponse(json_str)
 
 def delete(request, pk):
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     progress = get_object_or_404(Progress, pk=pk, user=user)
     progress.delete()
     messages.add_message(request, messages.SUCCESS, f'ID:{pk} を削除しました。')
@@ -150,7 +151,7 @@ def filter_delete(request):
         return render(request, 'web/progress/test.html', {'result': result,})
     
     status = form.cleaned_data.get('status')
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     Progress.objects.filter(status__in=status, user=user).delete()
     messages.add_message(request, messages.SUCCESS, '、'.join([Progress.STATUS(int(state)).label for state in status]) + 'を削除しました。')
     return redirect('web:progress.index')

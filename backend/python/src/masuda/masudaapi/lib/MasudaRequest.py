@@ -101,7 +101,7 @@ class MasudaRequest:
         self.driver.get(url)
         return self.driver.page_source
 
-    def get_page(self, page, user_id = None):
+    def get_page(self, page:int, user_id = None) -> dict:
         if user_id is None:
             user_id = const.HATENA['ID']
         if user_id:

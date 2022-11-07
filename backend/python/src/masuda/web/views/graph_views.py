@@ -15,9 +15,10 @@ from io import BytesIO
 
 from masuda import const
 from masudaapi.models import Post, HatenaUser
+from masudaapi.lib import user_getter
 
 def index(request):
-    user = HatenaUser.objects.filter(hatena_id=const.HATENA['ID']).first()
+    user = user_getter.get()
     fig = plt.figure(tight_layout=True, figsize=(10, 10))
     axes = fig.subplots(3, 1)
     # logger = logging.getLogger(__name__)
