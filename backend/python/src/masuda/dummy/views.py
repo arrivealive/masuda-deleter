@@ -17,15 +17,6 @@ import os
 from django.conf import settings
 # Create your views here.
 
-def index(request):
-    user = None
-    if request.user.is_authenticated:
-        user = request.user
-        logger = logging.getLogger(__name__)
-        logger.info(user)
-
-    return render(request, 'dummy/top.html', {'user': user})
-
 class IndexView(generic.ListView):
     model = Post
     template_name = 'dummy/index.html'
