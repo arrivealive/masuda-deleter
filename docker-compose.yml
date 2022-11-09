@@ -23,7 +23,7 @@ services:
 
   app:
     build: ./backend/python
-    command: sh -c "cd /code/masuda; /usr/local/bin/python manage.py runserver 0.0.0.0:8001"
+    # command: sh -c "cd /code/masuda; /usr/local/bin/python manage.py runserver 0.0.0.0:8001"
     volumes: 
       - ./backend/python/src:/code
     ports:
@@ -31,11 +31,3 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
-  # next:
-  #   build: ./frontend
-  #   volumes:
-  #     - ./frontend:/usr/src/app
-  #   command: sh -c "cd /usr/src/app/masuda-app && npm run dev"
-  #   ports:
-  #     - "3000:3000"
