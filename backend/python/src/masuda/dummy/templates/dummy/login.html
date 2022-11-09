@@ -1,0 +1,49 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta http-equiv="Content-Script-Type" content="text/javascript">
+  <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" name="viewport">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="/static/dummy/css/base.css?20170417" type="text/css" media="all">
+  <title>縺ｯ縺ｦ繝ｩ繝 ログイン</title>
+</head>
+<body onload="document.form.key.focus();" class="login">
+  <div id="logo">
+    <h1>縺ｯ縺ｦ繝ｩ繝</h1>
+  </div>
+  <div id="bannersub">
+    <table cellspacing="0">
+      <tbody>
+        <tr>
+          <td width="50%" nowrap="nowrap" class="username">&nbsp;ようこそ&nbsp;ゲスト&nbsp;さん</td>
+          <td width="1%" nowrap="nowrap" class="gmenu">ユーザー登録</td>
+          <td width="1%" nowrap="nowrap" class="gmenu"><a href="https://hatelabo.jp/login">ログイン</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="container">
+    <div id="main">
+      <form action="login" method="post" name="form" class="login"> <input type="hidden" name="mode" value="enter">
+        {% csrf_token %}
+        <div>
+          <div class="input-item">
+            <div class="input-item-inner"> <input value="" name="key" autofocus="autofocus" pattern=".{3,}" required="required" type="text" class="text" id="login-name" placeholder="{{ company_name }}ID または メールアドレス"> </div>
+          </div>
+          <div class="input-item">
+            <div class="input-item-inner"> <input required="required" value="" name="password" class="password" type="password" placeholder="パスワード"> </div>
+          </div>
+          <div id="option" class="config-button">
+            <div class="auto-login">
+              <div class="checkbox-item"> <input checked="checked" value="1" name="autologin" class="checkbox on" id="autologin" type="checkbox"> <label for="autologin" class="checkbox-text">
+                    <span>ログイン状態を保持する</span>
+                    </label> </div>
+            </div> <input value="ログイン" class="submit-button" type="submit"> </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% include 'dummy/layouts/footer.html' %}
+</body>
+</html>

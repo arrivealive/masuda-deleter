@@ -1,0 +1,87 @@
+{% extends "web/layouts/base.html" %}
+{% block title %}Progresses - {{ block.super }}{% endblock  %}
+{% block content %}
+{% load widget_tweaks get_item percent progress_can_stop progress_can_force_stop %}
+<div class="container">
+    {% if messages %}
+	<ul class="messages_ul">
+		{% for message in messages %}
+			<li class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                {{ message }}
+            </li>
+		{% endfor %}
+	</ul>
+    {% endif %}
+    <h3>一覧</h3>
+
+    <form action="{% url 'web:progress.filter_delete' %}" method="post" id="del-form" class="mb-3">
+        {% csrf_token %}
+        {{ del_form.status.label_tag }}
+        {{ del_form.status }}
+        <button class="btn btn-secondary">一括削除</button>
+    </form>
+    {% if progress_list %}
+    {% for progress in progress_list %}
+    <div class="row mb-3 border-bottom">
+        <div class="col">
+            ID: {{ progress.id }}<br />
+            処理: {{ progress.get_action }}<br />
+            状態: {{ progress.get_status }}<br />
+            <a data-bs-toggle="collapse" href="#overview-collapse-{{ progress.id }}" role="button" aria-expanded="false" aria-controls="overview-collapse-{{ progress.id }}">概要</a>
+            <div class="collapse" id="overview-collapse-{{ progress.id }}">
+                    {{ progress.overview }}
+            </div>
+        </div>
+        <div class="col">
+            処理済み:{{ progress.processed }} / 総数:{{ progress.total }}
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{ progress.processed|percent:progress.total }}%" aria-valuenow="{{ progress.processed|percent:progress.total }}" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+            {% if progress.memo or progress.delete_posts.count > 0 %}
+            <a data-bs-toggle="collapse" href="#memo-collapse-{{ progress.id }}" role="button" aria-expanded="false" aria-controls="memo-collapse-{{ progress.id }}">詳細</a>
+            <div class="collapse" id="memo-collapse-{{ progress.id }}">
+                {% if progress.memo %}
+                {{ progress.memo }}
+                {% endif %}
+                {% if progress.delete_posts.count > 0 %}
+                <p>削除対象:
+                {% for delete_post in progress.delete_posts.all %}
+                {% if delete_post.is_executed %}
+                <span>{{ delete_post.masuda_id }}</span>
+                {% else %}
+                <span>{{ delete_post.masuda_id }}(未実行)</span>
+                {% endif %}
+                {% endfor %}
+                </p>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="col">
+            {% if progress|progress_can_force_stop %}
+            <form action="{% url 'web:progress.force_stop' progress.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">強制停止</button>
+            </form>
+            {% elif progress|progress_can_stop %}
+            <form action="{% url 'web:progress.stop' progress.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">停止</button>
+            </form>
+            {% else %}
+            <form action="{% url 'web:progress.delete' progress.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary">削除</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+    {% include 'web/layouts/pager.html' %}
+    {% else %}
+        <p>No progresses are available.</p>
+    {% endif %}
+</div>
+{% endblock %}

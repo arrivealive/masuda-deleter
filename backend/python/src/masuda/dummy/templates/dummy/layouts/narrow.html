@@ -1,0 +1,13 @@
+<ul class="narrow" id="mobile-globalmenu">
+  <li><a href="/archive">アーカイブ</a></li>
+  <li><a href="/c">カテゴリー</a></li>
+  <li><a href="/keyword">キーワード</a></li>
+  <li><a href="/help">ヘルプ</a></li>
+</ul>
+{% if user %}
+<div class="narrow" id="user-menu"><a href="/dummy/{{ user.username }}/">{{ user.username }}の日記</a> <a class="edit-link" href="/dummy/{{ user.username }}/edit"><span>日記を書く</span></a> <a href="/dummy/logout">ログアウト</a></div>
+<div class="narrow" id="welcome"> ようこそ <a href="/dummy/{{ user.username }}/">{{ user.username }}</a> さん </div>
+{% else %}
+<div class="narrow" id="user-menu"><a href="/dummy/login">ログイン</a> <a href="/admin/">ユーザー登録</a></div>
+<div class="narrow" id="welcome"> ようこそ ゲスト さん </div>
+{% endif %}

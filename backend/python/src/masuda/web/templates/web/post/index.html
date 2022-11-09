@@ -1,0 +1,250 @@
+{% extends "web/layouts/base.html" %}
+{% block title %}Posts - {{ block.super }}{% endblock  %}
+{% block content %}
+{% load static widget_tweaks %}
+<div class="container">
+    {% if messages %}
+	<ul class="messages_ul">
+		{% for message in messages %}
+			<li class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">{{ message }}</li>
+		{% endfor %}
+	</ul>
+    {% endif %}
+    
+    <h3>取込</h3>
+    <div class="row">
+        <div class="col mb-4">
+            <form action="{% url 'web:fetch' %}" method="post" id="fetch-form" class="mb-3">
+                {% csrf_token %}
+                {{ fetch_form.page_from.label_tag }}
+                {{ fetch_form.page_from | add_class:'form-control' }}
+                {{ fetch_form.page_to.label_tag }}
+                {{ fetch_form.page_to | add_class:'form-control'  }}
+                <button class="btn btn-primary mt-1" id="fetch-btn">取込</button>
+            </form>
+        </div>
+    </div>
+
+    <h3>検索</h3>
+    <div class="row mb-4">
+        <div class="col">
+            <form method="GET" action="">
+                <div class="row mb-3">
+                    <div class="col">
+                        {{ form.keyword.label_tag }}
+                        {{ form.keyword | add_class:'form-control' }}
+                        {{ form.keyword.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        {{ form.masuda_id.label_tag }}
+                        {{ form.masuda_id | add_class:'form-control' }}
+                        {{ form.masuda_id.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        {{ form.posted_at_from.label_tag }}
+                        {{ form.posted_at_from | add_class:'form-control' }}
+                        {{ form.posted_at_from.errors }}
+                    </div>
+                    <div class="col">
+                        {{ form.posted_at_to.label_tag }}
+                        {{ form.posted_at_to | add_class:'form-control' }}
+                        {{ form.posted_at_to.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        {{ form.bookmark_count_from.label_tag }}
+                        {{ form.bookmark_count_from | add_class:'form-control' }}
+                        {{ form.bookmark_count_from.errors }}
+                    </div>
+                    <div class="col">
+                        {{ form.bookmark_count_to.label_tag }}
+                        {{ form.bookmark_count_to | add_class:'form-control' }}
+                        {{ form.bookmark_count_to.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        {{ form.response_count_from.label_tag }}
+                        {{ form.response_count_from | add_class:'form-control' }}
+                        {{ form.response_count_from.errors }}
+                    </div>
+                    <div class="col">
+                        {{ form.response_count_to.label_tag }}
+                        {{ form.response_count_to | add_class:'form-control' }}
+                        {{ form.response_count_to.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        {{ form.page_size.label_tag }}
+                        {{ form.page_size | add_class:'form-control' }}
+                        {{ form.page_size.errors }}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        {{ form.delete_later.label_tag }}
+                        {{ form.delete_later }}
+                        {{ form.delete_later.errors }}
+                    </div>
+                    <div class="col">
+                        {{ form.may_be_deleted.label_tag }}
+                        {{ form.may_be_deleted }}
+                        {{ form.may_be_deleted.errors }}
+                    </div>
+                    <div class="col">
+                        {% if use_space_masuda %}
+                        {{ form.space_masuda.label_tag }}
+                        {{ form.space_masuda }}
+                        {{ form.space_masuda.errors }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">検索</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <h3>一覧</h3>
+    {% if post_list %}
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteLaterModal">「あとで消す」記事をついに消す</button>
+        <button class="btn btn-secondary" id="uncheck-all-btn">「あとで消す」選択全解除</button>
+        <table class="table table-striped">
+            <tr>
+                <th>あとで消す</th>
+                <th>
+                    <a href="{% url 'web:index' %}?sort_{{ sort_directions.id }}=id{{ parameters }}">ID</a>
+                </th>
+                <th>増田ID</th>
+                <th>タイトル</th>
+                <th>本文</th>
+                <th><a href="{% url 'web:index' %}?sort_{{ sort_directions.posted_at }}=posted_at{{ parameters }}">投稿日時</a></th>
+                <th><a href="{% url 'web:index' %}?sort_{{ sort_directions.bookmark_count }}=bookmark_count{{ parameters }}">B</a></th>
+                <th><a href="{% url 'web:index' %}?sort_{{ sort_directions.response_count }}=response_count{{ parameters }}">TB</a></th>
+                <th style="width:15%">操作</th>
+            </tr>
+            {% for post in post_list %}
+            <tr id="row-{{ post.id }}">
+                <td>
+                    <label class="ps-1 pe-1 pb-5" style="display:block;" for="del_ids-{{ post.id }}">
+                        <input type="checkbox" name="del_ids" class="del_ids" id="del_ids-{{ post.id }}" value="{{ post.id }}" {% if post.delete_later_check %}checked{% endif %}/>&nbsp;
+                    </label>
+                </td>
+                <td>{{ post.id }}</td>
+                <td>
+                    <a href="{{ anond_url }}/{{ post.masuda_id }}" target="_blank">
+                        {{ post.masuda_id }}
+                    </a>
+                    {% if post.may_be_deleted %}
+                    <p class="text-danger">削除済？</p>
+                    {% endif %}
+                </td>
+                <td class="title">{{ post.title | truncatechars:abbr_length  }}</td>
+                <td class="body">{{ post.body | truncatechars:abbr_length }}</td>
+                <td>{{ post.posted_at }}</td>
+                <td class="bookmark_count">{{ post.bookmark_count }}</td>
+                <td class="response_count">{{ post.response_count }}</td>
+                <td>
+                    <div class="d-grid gap-2 d-md-block">
+                        <a class="btn btn-primary btn-sm mb-2" href="{% url 'web:detail' post.id %}">詳細</a>
+                        <button class="btn btn-primary btn-sm mb-2 reload-btn" data-id="{{ post.id }}" data-url="{% url 'web:reload' post.id %}">再読込</button>
+                        <button class="btn btn-danger btn-sm mb-2 del-btn" data-id="{{ post.id }}" data-url="{% url 'web:delete' post.id %}">削除</button>
+                        {% if use_space_masuda %}
+                        <button title="space masuda" class="btn btn-secondary btn-sm mb-2 space-masuda-btn" data-id="{{ post.id }}" data-url="{% url 'web:space_masuda' post.id %}">space masuda</a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% include 'web/layouts/pager.html' %}
+    {% else %}
+        <p>No posts are available.</p>
+    {% endif %}
+</div>
+
+  
+<form action="" method="post" id="ud-form" class="d-none">
+    {% csrf_token %}
+</form>
+
+<form action="{% url 'web:selective_delete' %}" method="post" id="selective-delete-form" class="d-none">
+    {% csrf_token %}
+</form>
+
+<form action="{% url 'web:uncheck_all' %}" method="post" id="uncheck-all-form" class="d-none">
+    {% csrf_token %}
+</form>
+
+<form action="{% url 'web:index' %}" method="post" id="check-form" class="d-none">
+    {% csrf_token %}
+</form>
+
+<button class="btn btn-primary position-relative position-fixed bottom-0 end-0 me-3" type="button" id="info-btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+<!-- <button type="button" class="btn btn-primary position-relative position-fixed bottom-0 end-0"> -->
+    Info
+    <span class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-danger p-2 d-none" id="info-badge"><span class="visually-hidden">unread messages</span></span>
+</button>
+
+<!-- offcanvas -->
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel" data-bs-scroll="true" data-bs-backdrop="false" >
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasBottomLabel">Info</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body small" id="info-area"></div>
+</div>
+
+<!-- alert skeleton -->
+<div class="alert alert-success alert-dismissible fade show d-none" role="alert" id="as-skeleton">
+    <span></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<div class="alert alert-danger alert-dismissible fade show d-none" role="alert" id="ad-skeleton">
+    <span></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<div class="alert alert-light alert-dismissible fade show d-none" role="alert" id="ap-skeleton" data-url="{% url 'web:progress.index' %}">
+    <span class="overview"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+    </div>
+    <div class="message"></div>
+</div>
+
+<!-- modal -->
+<div class="modal fade" id="deleteLaterModal" tabindex="-1" aria-labelledby="deleteLaterModalLabel" aria-hidden="true" data-url="{% url 'web:to_be_deleted_later' %}" data-anond-url="{{ anond_url }}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">以下の記事を削除します</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+          <button type="button" class="btn btn-primary" id="deleteLaterModalExecute" data-bs-dismiss="modal">削除</button>
+        </div>
+      </div>
+    </div>
+</div>
+<script>
+
+</script>
+{% endblock %}
+{% block js %}
+<script src="{% static 'web/js/post/index.js' %}" type="module"></script>
+{% endblock %}
