@@ -5,9 +5,9 @@ mysqlclient==2.1.1
 django-environ==0.9.0
 django-widget-tweaks==1.4.12
 
-selenium==4.4.3
+selenium==4.6.0
 beautifulsoup4==4.11.1
-chromedriver-binary==105.0.5195.19.0
+chromedriver-binary==108.0.5359.22.0
 
 djangorestframework==3.13.1
 django-cors-headers==3.13.0
