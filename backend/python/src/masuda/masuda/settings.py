@@ -62,6 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'web.middleware.middleware.CheckUserExistenceMiddleware',
+    'dummy.middleware.middleware.InitDummyDataMiddleware',
 ]
 
 ROOT_URLCONF = 'masuda.urls'
