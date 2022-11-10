@@ -11,15 +11,15 @@ class Command(BaseCommand):
         return super().add_arguments(parser)
 
     def handle(self, *args, **options):
-        masuda = Masuda.Masuda()
-        progress_id = options['progress']
-        if progress_id:
-            progress = Progress.objects.filter(id=progress_id).first()
-            if progress:
-                masuda.set_progress(progress)
         logger = logging.getLogger(__name__)
-
         try:
+            masuda = Masuda.Masuda()
+            progress_id = options['progress']
+            if progress_id:
+                progress = Progress.objects.filter(id=progress_id).first()
+                if progress:
+                    masuda.set_progress(progress)
+
             result = masuda.delete()
         except Exception as e:
             logger.exception('exception occurred')
