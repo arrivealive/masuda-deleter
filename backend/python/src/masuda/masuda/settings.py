@@ -21,6 +21,9 @@ env = environ.Env()
 ENV_PATH = os.path.join(BASE_DIR, '.env')
 env.read_env('.env')
 
+SECRET_KEY_ENV_PATH = os.path.join(BASE_DIR, 'secret_key.env')
+env.read_env(SECRET_KEY_ENV_PATH)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -28,7 +31,7 @@ env.read_env('.env')
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = [
     '0.0.0.0',
