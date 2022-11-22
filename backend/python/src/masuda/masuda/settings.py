@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
 ENV_PATH = os.path.join(BASE_DIR, '.env')
-env.read_env('.env')
+env.read_env(ENV_PATH)
 
 SECRET_KEY_ENV_PATH = os.path.join(BASE_DIR, 'secret_key.env')
 env.read_env(SECRET_KEY_ENV_PATH)
