@@ -1,7 +1,6 @@
 # Masuda Deleter
 Masuda Deleter is a Django application to list and delete posts of Hatena AnonymousDiary.
 
-# Image
 ![whole](https://github.com/arrivealive/masuda-deleter/blob/readme_images/ss/whole.png "whole")
 
 # Features
@@ -22,22 +21,38 @@ Clone this repository.
 git clone https://github.com/arrivealive/masuda-deleter
 ```
 
+Build Docker containers.
+```bash
+cd [masuda-deleter's directory]
+docker-compose build
+```
+
+Execute below to generate a secret key for Django.
+```bash
+docker-compose run app python /code/masuda/generate_secret_key.py
+```
+
 Write Hatena id and password to .env.
 ```bash
-cd [masuda-deleter's directory]/backend/python/src/masuda
+cd backend/python/src/masuda
 cp .env.example .env
 vim .env
 ```
+
 .env
 ```
 HATENA_ID={Hatena ID}
 HATENA_PASSWORD={PASSWORD}
 ```
 
-Build and start containers.
+Execute migration.
+```
+docker-compose run app python /code/masuda/manage.py migrate
+```
+
+Start containers.
 ```bash
-cd [masuda-deleter's directory]/
-docker-compose up -d --bulid
+docker-compose up -d
 ```
 
 Access to http://0.0.0.0:8001/web/ after containers start.
