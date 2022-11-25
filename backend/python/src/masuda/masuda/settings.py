@@ -232,10 +232,7 @@ import pymysql
 # connect mysql
 pymysql.install_as_MySQLdb()
 
-if DEBUG:
-    def show_toolbar(request):
-        return True
-
+if env.bool('USE_DEBUG_TOOLBAR'):
     INSTALLED_APPS += (
         'debug_toolbar',
     )
@@ -244,5 +241,5 @@ if DEBUG:
     )
     
     DEBUG_TOOLBAR_CONFIG = {
-        'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+        'SHOW_TOOLBAR_CALLBACK': lambda request: True,
     }
