@@ -84,5 +84,5 @@ mu
 https://twitter.com/loglesslove
 
 # License
-Masuda Deleter is under MIT license.
- 
+Masuda Deleter is under [MIT license](https://github.com/arrivealive/masuda-deleter/blob/main/LICENSE).
+
