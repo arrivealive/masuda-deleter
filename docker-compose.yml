@@ -23,11 +23,11 @@ services:
 
   app:
     build: ./backend/python
-    command: sh -c "cd /code/masuda; python manage.py runserver 0.0.0.0:8001"
+    command: sh -c "cd /code/masuda; python manage.py runserver 0.0.0.0:8107"
     volumes: 
       - ./backend/python/src:/code
     ports:
-      - "8001:8001"
+      - "8107:8107"
     depends_on:
       db:
         condition: service_healthy

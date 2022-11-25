@@ -30,9 +30,9 @@ from django.core import management
 HATENA = {
     'ID' : 'masuda',
     'PASSWORD' : 'veVTBujSKoAB',
-    'ANOND_URL' : 'http://127.0.0.1:8001/dummy',
-    'LOGIN_URL' : 'http://127.0.0.1:8001/dummy/login',
-    'BOOKMARK_API_URL' : 'http://127.0.0.1:8001/dummy/bookmark',
+    'ANOND_URL' : 'http://127.0.0.1:8107/dummy',
+    'LOGIN_URL' : 'http://127.0.0.1:8107/dummy/login',
+    'BOOKMARK_API_URL' : 'http://127.0.0.1:8107/dummy/bookmark',
     'PAGE_SIZE' : 25
 }
 
