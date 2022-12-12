@@ -7,8 +7,9 @@
   <meta content="{% if my %}{{ user.username }}の日記{% else %}{{ site_name }}{% endif %}" property="og:title">
   <meta content="blog" property="og:type">
   <meta content="{{ site_name }}" property="og:site_name">
-  <link href="https://cdn.www.st-hatena.com/css/global.css" rel="stylesheet">
+  <!-- <link href="https://cdn.www.st-hatena.com/css/global.css" rel="stylesheet"> -->
   <link href="/static/dummy/css/bundle.css?20210402" rel="stylesheet">
+  <link rel="icon" href="/static/dummy/images/favicon.ico" />
   <title>{% if my %}{{ user.username }}の日記{% else %}{{ site_name }}{% endif %}{% if page_obj.number > 1 %} - {{ page_obj.number }}ページ{% endif %}</title>
   <script src="/js/main.js"></script>
 </head>

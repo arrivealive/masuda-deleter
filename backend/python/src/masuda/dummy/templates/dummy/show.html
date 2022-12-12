@@ -4,49 +4,12 @@
   <link href="/images/favicon.ico" rel="shortcut icon">
   <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" name="viewport">
   <meta content="article" property="og:type">
+  <link rel="icon" href="/static/dummy/images/favicon.ico" />
   <meta content="{{ site_name }}" property="og:site_name">
-  <script async="" src="https://cdn.pool.st-hatena.com/valve/valve.js"></script>
-  <script>
-    var valve = window.valve || [];
-    valve.push(function(v) {
-      v.config({
-        service: 'anond',
-        bypass: false,
-        textSelector: '#hatena-anond div.section',
-        content: {
-          result: 'ng'
-        }
-      });
-    });
-    
-    valve.push(function(v) {
-      
-      var entrySection = document.querySelector('#hatena-anond div.section');
-      v.defineDFPSlot({
-        unit: '/4374287/anond_under_title',
-        sizes: { max: [ entrySection ? entrySection.clientWidth : 728, 100 ] },
-        slotId: 'title-below-ad'
-      });
-    
-      
-    
-      v.defineDFPSlot({ unit: '/4374287/anond_entry_trackback_bottom',  sizes: [[300, 250], [336, 280], 'fluid'], slotId: 'trackback-double-rectangle-left' });
-      v.defineDFPSlot({ unit: '/4374287/anond_entry_trackback_right',   sizes: [[300, 250], [336, 280], 'fluid'], slotId: 'trackback-double-rectangle-right' });
-      v.defineDFPSlot({ unit: '/4374287/anond_permalink_chumoku_left',  sizes: [[300, 250], [336, 280], 'fluid'], slotId: 'chumoku-double-rectangle-left' });
-      v.defineDFPSlot({ unit: '/4374287/anond_permalink_chumoku_right', sizes: [[300, 250], [336, 280], 'fluid'], slotId: 'chumoku-double-rectangle-right' });
-      v.sealDFPSlots();
-    });
-  </script>
-  <script async="" data-service="anond" id="valve-dmp" src="https://cdn.pool.st-hatena.com/valve/dmp.js"></script>
   <script src="/js/trackback.js?170529"></script>
-  <script type="text/javascript" async="" src="//dmp.im-apps.net/js/6604/0001/itm.js"></script>
-  <link href="https://cdn.www.st-hatena.com/css/global.css" rel="stylesheet">
+  <!-- <link href="https://cdn.www.st-hatena.com/css/global.css" rel="stylesheet"> -->
   <link href="/static/dummy/css/bundle.css?20210402" rel="stylesheet">
   <title>{{ post.title }}</title>
-  <meta content="Fp5jzctQo2guNfDbCNRDqkt_0x5DDlQl6kL-GJny49w" name="google-site-verification">
-  <script src="/js/main.js"></script>
-  <meta http-equiv="origin-trial" content="A7bG5hJ4XpMV5a3V1wwAR0PalkFSxLOZeL9D/YBYdupYUIgUgGhfVJ1zBFOqGybb7gRhswfJ+AmO7S2rNK2IOwkAAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjY5NzY2Mzk5LCJpc1RoaXJkUGFydHkiOnRydWV9">
-  <meta http-equiv="origin-trial" content="A7bG5hJ4XpMV5a3V1wwAR0PalkFSxLOZeL9D/YBYdupYUIgUgGhfVJ1zBFOqGybb7gRhswfJ+AmO7S2rNK2IOwkAAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjY5NzY2Mzk5LCJpc1RoaXJkUGFydHkiOnRydWV9">
 </head>
 <body id="entry-page">
   {% include 'dummy/layouts/header.html' %}
