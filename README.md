@@ -55,7 +55,7 @@ Start containers.
 docker-compose up -d
 ```
 
-Access to http://localhost:8001/web/ after containers start.
+Access to http://localhost:8107/web/ after containers start.
 
 # Usage
 Access the posts page( /web/ ). Input target page numbers of Hatena AnonymousDiary and push the fetch(取込) button.
@@ -84,5 +84,5 @@ mu
 https://twitter.com/loglesslove
 
 # License
-Masuda Deleter is under MIT license.
- 
+Masuda Deleter is under [MIT license](https://github.com/arrivealive/masuda-deleter/blob/main/LICENSE).
+
