@@ -1,7 +1,7 @@
 # Masuda Deleter
 Masuda Deleter is a Django application to list and delete posts of Hatena AnonymousDiary.
 
-![whole](https://github.com/arrivealive/masuda-deleter/blob/readme_images/ss/whole.png "whole")
+![whole](https://github.com/oribeolive/masuda-deleter/blob/readme_images/ss/whole.png "whole")
 
 # Features
 * Fetching the posts by logging in and crawling the user pages of Hatena AnonymousDiary
@@ -18,7 +18,7 @@ Masuda Deleter is a Django application to list and delete posts of Hatena Anonym
 
 Clone this repository. 
 ```bash
-git clone https://github.com/arrivealive/masuda-deleter
+git clone https://github.com/oribeolive/masuda-deleter
 ```
 
 Build Docker containers.
@@ -60,23 +60,23 @@ Access to http://localhost:8107/web/ after containers start.
 # Usage
 Access the posts page( /web/ ). Input target page numbers of Hatena AnonymousDiary and push the fetch(取込) button.
 
-<img src="https://github.com/arrivealive/masuda-deleter/blob/readme_images/ss/fetch.png" width="50%" />
+<img src="https://github.com/oribeolive/masuda-deleter/blob/readme_images/ss/fetch.png" width="50%" />
 
 Wait several seconds to minutes and refresh the browser to display the list.
 
-![list](https://github.com/arrivealive/masuda-deleter/blob/readme_images/ss/list.png "list")
+![list](https://github.com/oribeolive/masuda-deleter/blob/readme_images/ss/list.png "list")
  
 Check the posts you want to delete.
 
-<img src="https://github.com/arrivealive/masuda-deleter/blob/readme_images/ss/select.png" width="50%" />
+<img src="https://github.com/oribeolive/masuda-deleter/blob/readme_images/ss/select.png" width="50%" />
 
 Push the delete checked posts(「あとで消す」記事をついに消す) button.
 
-<img src="https://github.com/arrivealive/masuda-deleter/blob/readme_images/ss/delete.png" width="50%" />
+<img src="https://github.com/oribeolive/masuda-deleter/blob/readme_images/ss/delete.png" width="50%" />
 
 Push the delete(削除) button in the modal. The posts will be deleted in several seconds to minutes.
 
-<img src="https://github.com/arrivealive/masuda-deleter/blob/readme_images/ss/delete_modal.png" width="50%" />
+<img src="https://github.com/oribeolive/masuda-deleter/blob/readme_images/ss/delete_modal.png" width="50%" />
  
 # Author
 mu
@@ -84,5 +84,5 @@ mu
 https://twitter.com/loglesslove
 
 # License
-Masuda Deleter is under [MIT license](https://github.com/arrivealive/masuda-deleter/blob/main/LICENSE).
+Masuda Deleter is under [MIT license](https://github.com/oribeolive/masuda-deleter/blob/main/LICENSE).
 
